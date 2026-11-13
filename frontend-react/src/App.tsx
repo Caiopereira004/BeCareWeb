@@ -5,12 +5,14 @@ import FridgeComp from './pages/Fridge';
 import AuthComp from './pages/Auth';
 import ProfileComp from './pages/Profile';
 import Footer from './components/Footer';
+import AppDownloadComp from './components/AppDownloadSection';
 
 const Home = HomeComp as React.ComponentType<any>;
 const Tutorials = TutorialsComp as React.ComponentType<any>;
 const Fridge = FridgeComp as React.ComponentType<any>;
 const Auth = AuthComp as React.ComponentType<any>;
 const Profile = ProfileComp as React.ComponentType<any>;
+const AppDownloadSection = AppDownloadComp as React.ComponentType<any>;
 
 export interface User {
   id?: string;
@@ -47,48 +49,37 @@ const INITIAL_HABITS: Habit[] = [
 
 const INITIAL_TUTORIALS = [
   {
-    id: 'L_LUpnjgPso',
-    youtubeId: 'L_LUpnjgPso',
+    id: 'qP3K-L9Wd8o',
+    youtubeId: 'qP3K-L9Wd8o',
     title: 'Rotina Noturna de Hidratação Profunda',
     category: 'Skincare',
     author: 'GlowIA Academy',
     duration: '12 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/L_LUpnjgPso/hqdefault.jpg',
+    cover: 'https://img.youtube.com/vi/qP3K-L9Wd8o/hqdefault.jpg',
     product: 'Sérum Facial Hidratante (8°C - 12°C)',
   },
   {
-    id: '7sJ4g2S2r5I',
-    youtubeId: '7sJ4g2S2r5I',
+    id: 'j4jrPoaxw1I',
+    youtubeId: 'j4jrPoaxw1I',
     title: 'Skincare Matinal para Pele Luminosa',
     category: 'Skincare',
     author: 'Dra. Camila Beleza',
     duration: '08 min',
     isAI: false,
-    cover: 'https://img.youtube.com/vi/7sJ4g2S2r5I/hqdefault.jpg',
+    cover: 'https://img.youtube.com/vi/j4jrPoaxw1I/hqdefault.jpg',
     product: 'Vitamina C Pura 10% (4°C - 8°C)',
   },
   {
-    id: 'M7lc1UVf-VE',
-    youtubeId: 'M7lc1UVf-VE',
-    title: 'Massagem Facial Drenante com Gua Sha',
+    id: '8-Jm7t9eK-U',
+    youtubeId: '8-Jm7t9eK-U',
+    title: 'Massagem Facial Drenante & Glow Natural',
     category: 'Massagem Facial',
     author: 'GlowIA Studio',
     duration: '10 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg',
+    cover: 'https://img.youtube.com/vi/8-Jm7t9eK-U/hqdefault.jpg',
     product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
-  },
-  {
-    id: 'aqz-KE-bpKQ',
-    youtubeId: 'aqz-KE-bpKQ',
-    title: 'Preparação de Pele Natural & Glow',
-    category: 'Maquiagem',
-    author: 'Studio GlowUp',
-    duration: '15 min',
-    isAI: false,
-    cover: 'https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg',
-    product: 'Bruma Hidratante Fixadora (6°C - 10°C)',
   },
 ];
 
@@ -97,7 +88,7 @@ export default function App() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [guestUser, setGuestUser] = useState<User>(DEFAULT_USER);
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
-  const [favorites, setFavorites] = useState<string[]>(['L_LUpnjgPso']);
+  const [favorites, setFavorites] = useState<string[]>(['qP3K-L9Wd8o']);
   const [toast, setToast] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -134,6 +125,14 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToAppDownload = () => {
+    setMobileMenuOpen(false);
+    const el = document.getElementById('app-download');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-glowBg">
       {toast && (
@@ -142,10 +141,19 @@ export default function App() {
         </div>
       )}
 
-      <div className="bg-glowDark text-white text-[11px] py-2 px-4 text-center font-medium">
-        ✨ Sincronize sua rotina de skincare com a Geladeira Smart GlowFridge
+      {/* Banner Superior de Divulgação do App Mobile */}
+      <div className="bg-glowDark text-white text-[11px] py-2 px-4 text-center font-medium flex items-center justify-center gap-3 flex-wrap">
+        <span>📱 Baixe o App Mobile GlowUp para sincronizar com sua Geladeira Smart em qualquer lugar</span>
+        <button
+          type="button"
+          onClick={scrollToAppDownload}
+          className="bg-white text-glowDark px-3 py-0.5 rounded-full text-[10px] font-extrabold hover:bg-pink-100 transition"
+        >
+          Conhecer App ↓
+        </button>
       </div>
 
+      {/* Header Fixo */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-pink-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -168,7 +176,7 @@ export default function App() {
             </button>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-gray-600">
+          <nav className="hidden md:flex items-center gap-7 text-xs font-bold text-gray-600">
             <button
               onClick={() => navigateTo('home')}
               className={page === 'home' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
@@ -187,6 +195,12 @@ export default function App() {
             >
               ❄️ Geladeira Smart
             </button>
+            <button
+              onClick={scrollToAppDownload}
+              className="hover:text-glowPrimary transition flex items-center gap-1"
+            >
+              📲 Baixar App
+            </button>
           </nav>
 
           <div>
@@ -202,13 +216,14 @@ export default function App() {
                 onClick={() => navigateTo('auth')}
                 className="bg-glowPrimary text-white px-4 py-2 rounded-full text-xs font-bold shadow hover:bg-glowDark transition"
               >
-                Entrar
+                Entrar / Cadastrar
               </button>
             )}
           </div>
         </div>
       </header>
 
+      {/* Menu Lateral Mobile */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex">
           <div
@@ -263,6 +278,14 @@ export default function App() {
                   Geladeira Smart
                 </button>
 
+                <button
+                  onClick={scrollToAppDownload}
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-gray-600 hover:bg-gray-50 transition"
+                >
+                  <i className="fa-solid fa-mobile-screen-button w-5 text-center text-glowPrimary"></i>
+                  Baixar App Mobile
+                </button>
+
                 {loggedUser && (
                   <button
                     onClick={() => navigateTo('profile')}
@@ -301,6 +324,7 @@ export default function App() {
         </div>
       )}
 
+      {/* Conteúdo Principal */}
       <main className="flex-1">
         {page === 'home' && (
           <Home
@@ -309,6 +333,7 @@ export default function App() {
             habits={habits}
             onToggleHabit={toggleHabit}
             showToast={showToast}
+            onNavigate={navigateTo}
           />
         )}
         {page === 'tutorials' && (
@@ -319,7 +344,12 @@ export default function App() {
             showToast={showToast}
           />
         )}
-        {page === 'fridge' && <Fridge showToast={showToast} />}
+        {page === 'fridge' && (
+          <Fridge
+            showToast={showToast}
+            onDownloadApp={scrollToAppDownload}
+          />
+        )}
         {page === 'auth' && (
           <Auth
             onAuthSuccess={(u: User) => {
@@ -340,6 +370,11 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Seção de Divulgação do App Mobile com QR Codes funcionais */}
+      <div id="app-download">
+        <AppDownloadSection showToast={showToast} />
+      </div>
 
       <Footer onNavigate={navigateTo} />
     </div>
