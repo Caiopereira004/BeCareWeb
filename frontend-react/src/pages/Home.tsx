@@ -9,7 +9,7 @@ interface HomeProps {
   showToast: (msg: string) => void;
 }
 
-export default function Home({ user, setUser, habits, onToggleHabit, showToast }: HomeProps) {
+export default function Home({ user, setUser, habits, onToggleHabit, showToast }: any) {
   const completedCount = habits.filter(h => h.completed).length;
   const progressPercent = Math.round((completedCount / habits.length) * 100);
 
