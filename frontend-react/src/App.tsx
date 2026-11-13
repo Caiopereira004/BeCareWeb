@@ -1,163 +1,251 @@
 import React, { useState } from 'react';
-import Header from './components/Header';
-import BannerTop from './components/BannerTop';
+import HomeComp from './pages/Home';
+import TutorialsComp from './pages/Tutorials';
+import FridgeComp from './pages/Fridge';
+import AuthComp from './pages/Auth';
+import ProfileComp from './pages/Profile';
 import Footer from './components/Footer';
-import AppDownloadSection from './components/AppDownloadSection';
-import TechSpecModal from './components/TechSpecModal';
 
-import Home from './pages/Home';
-import Tutorials from './pages/Tutorials';
-import Fridge from './pages/Fridge';
-import Profile from './pages/Profile';
-import Auth from './pages/Auth';
+const Home = HomeComp as React.ComponentType<any>;
+const Tutorials = TutorialsComp as React.ComponentType<any>;
+const Fridge = FridgeComp as React.ComponentType<any>;
+const Auth = AuthComp as React.ComponentType<any>;
+const Profile = ProfileComp as React.ComponentType<any>;
+
 
 export interface User {
+  id?: string;
   name: string;
   email: string;
-  skinType?: string | null;
-  goal?: string | null;
   mood?: string;
+  skinType?: string;
+  goal?: string;
 }
 
-export interface Habit {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-export interface TutorialItem {
-  id: number;
-  title: string;
-  author: string;
-  duration: string;
-  youtubeId: string;
-  category: string;
-  product: string;
-  minTemp: number;
-  maxTemp: number;
-}
-
-const initialTutorials: TutorialItem[] = [
-  { id: 1, title: "6 Passos para Melhorar a Pele em 7 Dias", author: "Dra. Marina Hayashida", duration: "09:14", youtubeId: "j4jrPoaxw1I", category: "Skincare", product: "Sabonete & Sérum Facial", minTemp: 4, maxTemp: 8 },
-  { id: 2, title: "Rotina Completa Noturna Anti-Idade", author: "Dr. Lucas Fustinoni", duration: "11:05", youtubeId: "qP3K-L9Wd8o", category: "Skincare", product: "Creme de Retinol & Ácido Hialurônico", minTemp: 4, maxTemp: 8 },
-  { id: 3, title: "Maquiagem Glow Natural para o Dia a Dia", author: "Bianca Andrade", duration: "10:15", youtubeId: "8-Jm7t9eK-U", category: "Maquiagem", product: "Batom Velvet Nude & Base", minTemp: 18, maxTemp: 24 },
-  { id: 4, title: "Massagem Facial com Gua Sha para Drenagem", author: "Dra. Patricia Leite", duration: "08:40", youtubeId: "LgWjQ5x1n9A", category: "Massagem", product: "Óleo Facial Nutritivo & Gua Sha", minTemp: 4, maxTemp: 10 },
-  { id: 5, title: "Como Tratar Olheiras e Inchaço Matinal", author: "Dra. Sintia Belangero", duration: "07:50", youtubeId: "W5rYd5f9Q8A", category: "Skincare", product: "Máscara Gel para os Olhos", minTemp: 2, maxTemp: 6 },
-  { id: 6, title: "Cuidados Essenciais para Cabelos Danificados", author: "Viih Tube", duration: "12:35", youtubeId: "xHTAaQI86qo", category: "Cabelos", product: "Óleo Capilar de Argan", minTemp: 15, maxTemp: 25 },
-  { id: 7, title: "Protetor Solar: Como Escolher o Tipo Certo", author: "Dra. Marina Hayashida", duration: "14:20", youtubeId: "P9xJ8K7aL6M", category: "Skincare", product: "Protetor Solar Fluid FPS 60", minTemp: 15, maxTemp: 25 },
-  { id: 8, title: "Rotina Minimalista de Skincare Matinal", author: "Dra. Kelly Pico", duration: "06:45", youtubeId: "R7T8y9U0V1W", category: "Skincare", product: "Sérum Vitamina C 10%", minTemp: 4, maxTemp: 8 }
-];
+export type Page = 'home' | 'tutorials' | 'fridge' | 'auth' | 'profile';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'tutorials' | 'fridge' | 'profile' | 'auth'>('home');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<User>({ name: 'Visitante', email: '', skinType: null, goal: null, mood: '✨ Radiante' });
-  const [isTechModalOpen, setIsTechModalOpen] = useState(false);
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [page, setPage] = useState<Page>('home');
+  const [user, setUser] = useState<User | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [habits, setHabits] = useState<Habit[]>([
-    { id: 1, title: 'Beber 2L de Água', completed: true },
-    { id: 2, title: 'Protetor Solar', completed: true },
-    { id: 3, title: 'Limpeza Facial', completed: false },
-    { id: 4, title: '8h de Sono Reparador', completed: false }
-  ]);
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
-  const handleToggleHabit = (id: number) => {
-    setHabits(prev => prev.map(h => h.id === id ? { ...h, completed: !h.completed } : h));
-  };
-
-  const handleToggleFavorite = (id: number) => {
-    if (favorites.includes(id)) {
-      setFavorites(favorites.filter(favId => favId !== id));
-      showToast('Tutorial removido dos favoritos.');
-    } else {
-      setFavorites([...favorites, id]);
-      showToast('Tutorial adicionado aos favoritos!');
-    }
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUser({ name: 'Visitante', email: '', skinType: null, goal: null, mood: '✨ Radiante' });
-    setCurrentView('home');
-    showToast('Você saiu da conta.');
+  const navigateTo = (target: Page) => {
+    setPage(target);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div class="min-h-screen flex flex-col justify-between bg-[#FAF4F5] text-gray-800">
-      <BannerTop onNavigateApp={() => {
-        const el = document.getElementById('app-download');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }} />
+    <div className="min-h-screen flex flex-col bg-glowBg">
+      {/* Banner superior */}
+      <div className="bg-glowDark text-white text-[11px] py-2 px-4 text-center font-medium">
+        ✨ Sincronize sua rotina de skincare com a Geladeira Smart GlowFridge
+      </div>
 
-      <Header 
-        currentView={currentView} 
-        onNavigate={(view) => setCurrentView(view as any)} 
-        isLoggedIn={isLoggedIn}
-        userName={user.name}
-      />
+      {/* Header fixo */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-pink-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          {/* Esquerda: Botão Menu Mobile + Logo */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Abrir menu"
+              className="md:hidden p-2 rounded-xl text-glowDark hover:bg-glowNude transition"
+            >
+              <i className="fa-solid fa-bars text-xl"></i>
+            </button>
 
-      <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
-        {currentView === 'home' && (
-          <Home 
-            user={user} 
-            setUser={setUser} 
-            habits={habits} 
-            onToggleHabit={handleToggleHabit} 
-            showToast={showToast}
+            <button
+              type="button"
+              onClick={() => navigateTo('home')}
+              className="flex items-center gap-2 font-black text-xl text-glowDark"
+            >
+              <span className="w-8 h-8 rounded-full bg-glowNude flex items-center justify-center text-glowPrimary text-base">♥</span>
+              GlowUp
+            </button>
+          </div>
+
+          {/* Navegação Desktop */}
+          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-gray-600">
+            <button
+              onClick={() => navigateTo('home')}
+              className={page === 'home' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
+            >
+              Início
+            </button>
+            <button
+              onClick={() => navigateTo('tutorials')}
+              className={page === 'tutorials' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
+            >
+              Tutoriais & Aulas
+            </button>
+            <button
+              onClick={() => navigateTo('fridge')}
+              className={page === 'fridge' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
+            >
+              ❄️ Geladeira Smart
+            </button>
+          </nav>
+
+          {/* Direita: Conta / Perfil */}
+          <div>
+            {user ? (
+              <button
+                onClick={() => navigateTo('profile')}
+                className="bg-glowNude text-glowDark px-3.5 py-2 rounded-full text-xs font-bold border border-pink-200 hover:bg-pink-100 transition"
+              >
+                👤 {user.name.split(' ')[0]}
+              </button>
+            ) : (
+              <button
+                onClick={() => navigateTo('auth')}
+                className="bg-glowPrimary text-white px-4 py-2 rounded-full text-xs font-bold shadow hover:bg-glowDark transition"
+              >
+                Entrar
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* MENU LATERAL DESLIZANTE (MOBILE DRAWER) */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Fundo escuro transparente ao clicar fora */}
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+          ></div>
+
+          {/* Gaveta lateral esquerda */}
+          <aside className="relative w-72 max-w-[80vw] bg-white h-full shadow-2xl p-6 flex flex-col justify-between z-10">
+            <div className="space-y-6">
+              {/* Topo do menu */}
+              <div className="flex items-center justify-between border-b border-pink-100 pb-4">
+                <div className="flex items-center gap-2 font-black text-lg text-glowDark">
+                  <span className="text-glowPrimary">♥</span> GlowUp
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Fechar menu"
+                  className="p-2 text-gray-400 hover:text-gray-700 rounded-lg"
+                >
+                  <i className="fa-solid fa-xmark text-xl"></i>
+                </button>
+              </div>
+
+              {/* Links das telas */}
+              <nav className="flex flex-col space-y-2 text-sm font-bold">
+                <button
+                  onClick={() => navigateTo('home')}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition ${
+                    page === 'home'
+                      ? 'bg-glowNude text-glowPrimary'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <i className="fa-solid fa-house w-5 text-center"></i>
+                  Início
+                </button>
+
+                <button
+                  onClick={() => navigateTo('tutorials')}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition ${
+                    page === 'tutorials'
+                      ? 'bg-glowNude text-glowPrimary'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <i className="fa-solid fa-circle-play w-5 text-center"></i>
+                  Tutoriais & Aulas
+                </button>
+
+                <button
+                  onClick={() => navigateTo('fridge')}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition ${
+                    page === 'fridge'
+                      ? 'bg-glowNude text-glowPrimary'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <i className="fa-solid fa-snowflake w-5 text-center text-glowCyan"></i>
+                  Geladeira Smart
+                </button>
+
+                {user && (
+                  <button
+                    onClick={() => navigateTo('profile')}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition ${
+                      page === 'profile'
+                        ? 'bg-glowNude text-glowPrimary'
+                        : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <i className="fa-solid fa-user w-5 text-center"></i>
+                    Meu Perfil
+                  </button>
+                )}
+              </nav>
+            </div>
+
+            {/* Rodapé do menu lateral */}
+            <div className="border-t border-pink-100 pt-4">
+              {user ? (
+                <button
+                  onClick={() => {
+                    setUser(null);
+                    navigateTo('home');
+                  }}
+                  className="w-full py-3 rounded-2xl bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition"
+                >
+                  Sair da Conta
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigateTo('auth')}
+                  className="w-full py-3 rounded-2xl bg-glowPrimary text-white text-xs font-bold shadow hover:bg-glowDark transition"
+                >
+                  Entrar / Criar Conta
+                </button>
+              )}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* Conteúdo Principal */}
+      <main className="flex-1">
+        {page === 'home' && (
+          <Home
+            user={user}
+            onUpdateMood={(mood: string) => user && setUser({ ...user, mood })}
           />
         )}
-        {currentView === 'tutorials' && (
-          <Tutorials 
-            tutorials={initialTutorials} 
-            favorites={favorites} 
-            onToggleFavorite={handleToggleFavorite}
-          />
-        )}
-        {currentView === 'fridge' && (
-          <Fridge 
-            onOpenModal={() => setIsTechModalOpen(true)}
-            onScrollApp={() => {
-              const el = document.getElementById('app-download');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
+        {page === 'tutorials' && <Tutorials />}
+        {page === 'fridge' && <Fridge />}
+        {page === 'auth' && (
+          <Auth
+            onAuthSuccess={(u: User) => {
+              setUser(u);
+              navigateTo('home');
             }}
+            onNavigateHome={() => navigateTo('home')}
           />
         )}
-        {currentView === 'profile' && (
-          <Profile user={user} onLogout={handleLogout} />
-        )}
-        {currentView === 'auth' && (
-          <Auth 
-            onAuthSuccess={(userData) => {
-              setIsLoggedIn(true);
-              setUser(userData);
-              setCurrentView('home');
-              showToast(`Bem-vinda(o), ${userData.name}!`);
+        {page === 'profile' && user && (
+          <Profile
+            user={user}
+            onLogout={() => {
+              setUser(null);
+              navigateTo('home');
             }}
-            onNavigateHome={() => setCurrentView('home')}
           />
         )}
       </main>
 
-      <AppDownloadSection showToast={showToast} />
-      <Footer onNavigate={(v) => setCurrentView(v as any)} />
-
-      {isTechModalOpen && (
-        <TechSpecModal onClose={() => setIsTechModalOpen(false)} />
-      )}
-
-      {toastMessage && (
-        <div class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-2 animate-bounce">
-          <i class="fa-solid fa-circle-info text-glowPrimary"></i>
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      <Footer onNavigate={navigateTo} />
     </div>
   );
 }
