@@ -176,7 +176,7 @@ export default function App() {
             </button>
           </div>
 
-          <nav className="hidden md:flex items-center gap-7 text-xs font-bold text-gray-600">
+          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-gray-600">
             <button
               onClick={() => navigateTo('home')}
               className={page === 'home' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
@@ -194,12 +194,6 @@ export default function App() {
               className={page === 'fridge' ? 'text-glowPrimary' : 'hover:text-glowPrimary transition'}
             >
               ❄️ Geladeira Smart
-            </button>
-            <button
-              onClick={scrollToAppDownload}
-              className="hover:text-glowPrimary transition flex items-center gap-1"
-            >
-              📲 Baixar App
             </button>
           </nav>
 
@@ -276,14 +270,6 @@ export default function App() {
                 >
                   <i className="fa-solid fa-snowflake w-5 text-center text-glowCyan"></i>
                   Geladeira Smart
-                </button>
-
-                <button
-                  onClick={scrollToAppDownload}
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-gray-600 hover:bg-gray-50 transition"
-                >
-                  <i className="fa-solid fa-mobile-screen-button w-5 text-center text-glowPrimary"></i>
-                  Baixar App Mobile
                 </button>
 
                 {loggedUser && (
