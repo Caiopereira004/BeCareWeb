@@ -45,11 +45,59 @@ const INITIAL_HABITS: Habit[] = [
   { id: '4', title: 'Hidratação noturna reparadora', time: 'Noite', completed: false },
 ];
 
+const INITIAL_TUTORIALS = [
+  {
+    id: 'L_LUpnjgPso',
+    youtubeId: 'L_LUpnjgPso',
+    title: 'Rotina Noturna de Hidratação Profunda',
+    category: 'Skincare',
+    author: 'GlowIA Academy',
+    duration: '12 min',
+    isAI: true,
+    cover: 'https://img.youtube.com/vi/L_LUpnjgPso/hqdefault.jpg',
+    product: 'Sérum Facial Hidratante (8°C - 12°C)',
+  },
+  {
+    id: '7sJ4g2S2r5I',
+    youtubeId: '7sJ4g2S2r5I',
+    title: 'Skincare Matinal para Pele Luminosa',
+    category: 'Skincare',
+    author: 'Dra. Camila Beleza',
+    duration: '08 min',
+    isAI: false,
+    cover: 'https://img.youtube.com/vi/7sJ4g2S2r5I/hqdefault.jpg',
+    product: 'Vitamina C Pura 10% (4°C - 8°C)',
+  },
+  {
+    id: 'M7lc1UVf-VE',
+    youtubeId: 'M7lc1UVf-VE',
+    title: 'Massagem Facial Drenante com Gua Sha',
+    category: 'Massagem Facial',
+    author: 'GlowIA Studio',
+    duration: '10 min',
+    isAI: true,
+    cover: 'https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg',
+    product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
+  },
+  {
+    id: 'aqz-KE-bpKQ',
+    youtubeId: 'aqz-KE-bpKQ',
+    title: 'Preparação de Pele Natural & Glow',
+    category: 'Maquiagem',
+    author: 'Studio GlowUp',
+    duration: '15 min',
+    isAI: false,
+    cover: 'https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg',
+    product: 'Bruma Hidratante Fixadora (6°C - 10°C)',
+  },
+];
+
 export default function App() {
   const [page, setPage] = useState<Page>('home');
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [guestUser, setGuestUser] = useState<User>(DEFAULT_USER);
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
+  const [favorites, setFavorites] = useState<string[]>(['L_LUpnjgPso']);
   const [toast, setToast] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -66,6 +114,12 @@ export default function App() {
   const toggleHabit = (id: string) => {
     setHabits((prev) =>
       prev.map((h) => (h.id === id ? { ...h, completed: !h.completed } : h))
+    );
+  };
+
+  const toggleFavorite = (id: string) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
@@ -257,7 +311,14 @@ export default function App() {
             showToast={showToast}
           />
         )}
-        {page === 'tutorials' && <Tutorials showToast={showToast} />}
+        {page === 'tutorials' && (
+          <Tutorials
+            tutorials={INITIAL_TUTORIALS}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            showToast={showToast}
+          />
+        )}
         {page === 'fridge' && <Fridge showToast={showToast} />}
         {page === 'auth' && (
           <Auth
