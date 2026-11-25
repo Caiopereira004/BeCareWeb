@@ -2,9 +2,10 @@ import React from 'react';
 
 interface FooterProps {
   onNavigate: (page: any) => void;
+  onOpenTechSpecs?: () => void;
 }
 
-export default function Footer({ onNavigate }: FooterProps) {
+export default function Footer({ onNavigate, onOpenTechSpecs }: FooterProps) {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -21,9 +22,44 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div>
           <h4 className="text-xs font-bold text-gray-300 mb-4 uppercase tracking-wider">Navegação</h4>
           <ul className="space-y-2 text-xs text-gray-400">
-            <li><button onClick={() => onNavigate('home')} className="hover:text-glowPrimary transition">Início</button></li>
-            <li><button onClick={() => onNavigate('tutorials')} className="hover:text-glowPrimary transition">Tutoriais & Aulas</button></li>
-            <li><button onClick={() => onNavigate('fridge')} className="hover:text-glowPrimary transition">Geladeira Smart</button></li>
+            <li>
+              <button
+                type="button"
+                onClick={() => onNavigate('home')}
+                className="hover:text-glowPrimary transition"
+              >
+                Início
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => onNavigate('tutorials')}
+                className="hover:text-glowPrimary transition"
+              >
+                Tutoriais & Aulas
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => onNavigate('fridge')}
+                className="hover:text-glowPrimary transition"
+              >
+                Geladeira Smart
+              </button>
+            </li>
+            {onOpenTechSpecs && (
+              <li>
+                <button
+                  type="button"
+                  onClick={onOpenTechSpecs}
+                  className="hover:text-glowPrimary transition"
+                >
+                  Especificações Técnicas
+                </button>
+              </li>
+            )}
           </ul>
         </div>
 

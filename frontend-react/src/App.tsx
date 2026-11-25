@@ -4,14 +4,17 @@ import TutorialsComp from './pages/Tutorials';
 import FridgeComp from './pages/Fridge';
 import AuthComp from './pages/Auth';
 import ProfileComp from './pages/Profile';
-import Footer from './components/Footer';
+import FooterComp from './components/Footer';
 import AppDownloadComp from './components/AppDownloadSection';
+import TechSpecComp from './components/TechSpecModal';
 
+const TechSpecModal = TechSpecComp as React.ComponentType<any>;
 const Home = HomeComp as React.ComponentType<any>;
 const Tutorials = TutorialsComp as React.ComponentType<any>;
 const Fridge = FridgeComp as React.ComponentType<any>;
 const Auth = AuthComp as React.ComponentType<any>;
 const Profile = ProfileComp as React.ComponentType<any>;
+const Footer = FooterComp as React.ComponentType<any>;
 const AppDownloadSection = AppDownloadComp as React.ComponentType<any>;
 
 export interface User {
@@ -91,6 +94,7 @@ export default function App() {
   const [favorites, setFavorites] = useState<string[]>(['qP3K-L9Wd8o']);
   const [toast, setToast] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [techSpecsOpen, setTechSpecsOpen] = useState(false);
 
   const activeUser = loggedUser || guestUser;
 
@@ -334,6 +338,7 @@ export default function App() {
           <Fridge
             showToast={showToast}
             onDownloadApp={scrollToAppDownload}
+            onOpenTechSpecs={() => setTechSpecsOpen(true)}
           />
         )}
         {page === 'auth' && (
@@ -343,6 +348,7 @@ export default function App() {
               navigateTo('home');
             }}
             onNavigateHome={() => navigateTo('home')}
+            showToast={showToast}
           />
         )}
         {page === 'profile' && loggedUser && (
@@ -362,7 +368,16 @@ export default function App() {
         <AppDownloadSection showToast={showToast} />
       </div>
 
-      <Footer onNavigate={navigateTo} />
+      <Footer
+        onNavigate={navigateTo}
+        onOpenTechSpecs={() => setTechSpecsOpen(true)}
+      />
+
+      {/* Modal de Especificações Técnicas */}
+      <TechSpecModal
+        isOpen={techSpecsOpen}
+        onClose={() => setTechSpecsOpen(false)}
+      />
     </div>
   );
 }
