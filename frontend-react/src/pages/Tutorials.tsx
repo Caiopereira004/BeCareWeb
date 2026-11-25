@@ -21,103 +21,103 @@ interface TutorialsProps {
 
 const CATALOG_TUTORIALS: TutorialItem[] = [
   {
-    id: 'skincare-rotina-noturna',
-    youtubeId: 'nA4P_dG0N34',
-    title: 'Rotina Noturna de Hidratação Profunda',
+    id: 'skincare-manha-ordem',
+    youtubeId: 'NdzEUJHAgX8',
+    title: 'Skincare da Manhã: Qual a Ordem Ideal?',
     category: 'Skincare',
-    author: 'GlowIA Academy',
-    duration: '12 min',
+    author: 'Dra. Marina Hayashida',
+    duration: '10 min',
+    isAI: false,
+    cover: 'https://i.ytimg.com/vi/NdzEUJHAgX8/hqdefault.jpg',
+    product: 'Vitamina C & Hidratante (4°C - 8°C)',
+  },
+  {
+    id: 'resenha-mini-geladeira',
+    youtubeId: 'ijcWA-cdE_E',
+    title: 'Resenha Completa: Mini Geladeira de Skincare',
+    category: 'GlowFridge',
+    author: 'Tainara Yamasaki - Estética',
+    duration: '10 min',
     isAI: true,
-    cover: 'https://i.ytimg.com/vi/nA4P_dG0N34/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/ijcWA-cdE_E/hqdefault.jpg',
+    product: 'Cosméticos Termossensíveis (5°C - 10°C)',
+  },
+  {
+    id: 'massagem-facial-guasha',
+    youtubeId: 'Wdcbprw1vIc',
+    title: 'Massagem Facial com Gua Sha & Pedra Jade',
+    category: 'Massagem Facial',
+    author: 'Thamires Nascimento',
+    duration: '11 min',
+    isAI: false,
+    cover: 'https://i.ytimg.com/vi/Wdcbprw1vIc/hqdefault.jpg',
+    product: 'Gua Sha & Roller Resfriado (4°C - 6°C)',
+  },
+  {
+    id: 'pele-glow-passo-a-passo',
+    youtubeId: '9oBewQp7hII',
+    title: 'Tutorial de Pele Glow — Passo a Passo',
+    category: 'Maquiagem',
+    author: 'Hérika Fagundes',
+    duration: '17 min',
+    isAI: false,
+    cover: 'https://i.ytimg.com/vi/9oBewQp7hII/hqdefault.jpg',
+    product: 'Bruma & Sérum Iluminador (6°C - 10°C)',
+  },
+  {
+    id: 'rotina-skincare-simples',
+    youtubeId: 'Ss8fA1mMbRI',
+    title: 'Como Fazer Uma Rotina de Skincare Simples e Eficaz',
+    category: 'Skincare',
+    author: 'Dra. Marina Hayashida',
+    duration: '23 min',
+    isAI: true,
+    cover: 'https://i.ytimg.com/vi/Ss8fA1mMbRI/hqdefault.jpg',
     product: 'Sérum Ácido Hialurônico (8°C - 12°C)',
   },
   {
-    id: 'skincare-matinal-glow',
-    youtubeId: 'y3t7M1vG-zM',
-    title: 'Skincare Matinal para Pele Luminosa',
+    id: 'guasha-papada-mandibula',
+    youtubeId: 'F_NzcYbxJlw',
+    title: 'Descubra o Poder do Gua Sha para Mandíbula e Contorno',
+    category: 'Massagem Facial',
+    author: 'Fisio Angélica Queiroz',
+    duration: '13 min',
+    isAI: false,
+    cover: 'https://i.ytimg.com/vi/F_NzcYbxJlw/hqdefault.jpg',
+    product: 'Gel Condutor Calmante (4°C - 8°C)',
+  },
+  {
+    id: 'unboxing-mini-geladeira',
+    youtubeId: 'sc8-blGXuoM',
+    title: 'Organizando Produtos na Mini Geladeira de Skincare',
+    category: 'GlowFridge',
+    author: 'Valentina Conti',
+    duration: '01 min',
+    isAI: true,
+    cover: 'https://i.ytimg.com/vi/sc8-blGXuoM/hqdefault.jpg',
+    product: 'Máscaras & Cremes para Olhos (4°C - 8°C)',
+  },
+  {
+    id: 'montar-rotina-cuidados',
+    youtubeId: 'yty0tqKeIGQ',
+    title: 'Aprenda Como Montar Uma Rotina de Cuidados com a Pele',
     category: 'Skincare',
-    author: 'Dra. Camila Beleza',
+    author: 'Dra. Marina Hayashida',
     duration: '08 min',
-    isAI: false,
-    cover: 'https://i.ytimg.com/vi/y3t7M1vG-zM/hqdefault.jpg',
-    product: 'Vitamina C Pura 10% (4°C - 8°C)',
+    isAI: true,
+    cover: 'https://i.ytimg.com/vi/yty0tqKeIGQ/hqdefault.jpg',
+    product: 'Niacinamida & Ativos Reparadores (8°C - 12°C)',
   },
   {
-    id: 'massagem-gua-sha',
-    youtubeId: '6g3E4jB5yH8',
-    title: 'Massagem Facial Drenante com Gua Sha',
+    id: 'guasha-tecnica-facial',
+    youtubeId: 'ejbbdFKdWQQ',
+    title: 'Gua Sha: Técnica Milenar de Massagem e Tonificação',
     category: 'Massagem Facial',
-    author: 'GlowIA Studio',
-    duration: '10 min',
-    isAI: true,
-    cover: 'https://i.ytimg.com/vi/6g3E4jB5yH8/hqdefault.jpg',
-    product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
-  },
-  {
-    id: 'conservacao-glowfridge',
-    youtubeId: 'K4TOrB7at0Y',
-    title: 'Como Conservar Cosméticos na Geladeira Smart',
-    category: 'GlowFridge',
-    author: 'Especialistas GlowUp',
-    duration: '06 min',
-    isAI: true,
-    cover: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80',
-    product: 'Cremes para Área dos Olhos (5°C - 8°C)',
-  },
-  {
-    id: 'controle-oleosidade',
-    youtubeId: 'lTRiuFIWV54',
-    title: 'Controle de Oleosidade e Poros Dilatados',
-    category: 'Skincare',
-    author: 'Dra. Marina Pele',
-    duration: '11 min',
+    author: 'Peter Liu',
+    duration: '05 min',
     isAI: false,
-    cover: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80',
-    product: 'Tônico Adstringente Gelado (6°C - 10°C)',
-  },
-  {
-    id: 'preparacao-pele-natural',
-    youtubeId: 'M7lc1UVf-VE',
-    title: 'Preparação de Pele Natural & Glow',
-    category: 'Maquiagem',
-    author: 'Studio GlowUp',
-    duration: '15 min',
-    isAI: false,
-    cover: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
-    product: 'Bruma Hidratante Fixadora (6°C - 10°C)',
-  },
-  {
-    id: 'spa-mascaras-geladas',
-    youtubeId: 'aqz-KE-bpKQ',
-    title: 'Spa Facial em Casa com Máscaras Geladas',
-    category: 'GlowFridge',
-    author: 'GlowIA Academy',
-    duration: '09 min',
-    isAI: true,
-    cover: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=80',
-    product: 'Sheet Masks Calmantes (4°C - 7°C)',
-  },
-  {
-    id: 'drenagem-linfatica-facial',
-    youtubeId: 'ysz5S6PUM-U',
-    title: 'Drenagem Linfática para Desinchar pela Manhã',
-    category: 'Massagem Facial',
-    author: 'Carla Bem-Estar',
-    duration: '07 min',
-    isAI: false,
-    cover: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80',
-    product: 'Gel Calmante Aloe Vera (4°C - 8°C)',
-  },
-  {
-    id: 'guia-ativos-retinol',
-    youtubeId: 'jNQXAC9IVRw',
-    title: 'Guia Completo de Ativos: Retinol e Niacinamida',
-    category: 'Skincare',
-    author: 'Dra. Camila Beleza',
-    duration: '14 min',
-    isAI: true,
-    cover: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
-    product: 'Sérum Niacinamida 10% (8°C - 12°C)',
+    cover: 'https://i.ytimg.com/vi/ejbbdFKdWQQ/hqdefault.jpg',
+    product: 'Óleo & Sérum Facial Gelado (6°C - 10°C)',
   },
 ];
 
@@ -136,7 +136,8 @@ export default function Tutorials({
   const filtered = CATALOG_TUTORIALS.filter((t) => {
     const matchesSearch =
       t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.product.toLowerCase().includes(searchTerm.toLowerCase());
+      t.product.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.author.toLowerCase().includes(searchTerm.toLowerCase());
 
     if (selectedCategory === 'Favoritos') {
       return favorites.includes(t.id) && matchesSearch;
@@ -176,7 +177,7 @@ export default function Tutorials({
               setSearchTerm(e.target.value);
               setVisibleCount(6);
             }}
-            placeholder="Buscar aula ou ativo..."
+            placeholder="Buscar aula, canal ou ativo..."
             className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-pink-100 text-xs focus:outline-none focus:border-glowPrimary shadow-xs"
           />
         </div>
@@ -226,10 +227,6 @@ export default function Tutorials({
                     <img
                       src={item.cover}
                       alt={item.title}
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src =
-                          'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80';
-                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                     />
                     <div className="absolute inset-0 bg-black/25 flex items-center justify-center opacity-90 group-hover:bg-black/40 transition">

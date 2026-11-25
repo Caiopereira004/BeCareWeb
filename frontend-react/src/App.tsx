@@ -52,37 +52,37 @@ const INITIAL_HABITS: Habit[] = [
 
 const INITIAL_TUTORIALS = [
   {
-    id: 'skincare-rotina-noturna',
-    youtubeId: 'nA4P_dG0N34',
-    title: 'Rotina Noturna de Hidratação Profunda',
+    id: 'skincare-manha-ordem',
+    youtubeId: 'NdzEUJHAgX8',
+    title: 'Skincare da Manhã: Qual a Ordem Ideal?',
     category: 'Skincare',
-    author: 'GlowIA Academy',
-    duration: '12 min',
-    isAI: true,
-    cover: 'https://i.ytimg.com/vi/nA4P_dG0N34/hqdefault.jpg',
-    product: 'Sérum Facial Hidratante (8°C - 12°C)',
-  },
-  {
-    id: 'skincare-matinal-glow',
-    youtubeId: 'y3t7M1vG-zM',
-    title: 'Skincare Matinal para Pele Luminosa',
-    category: 'Skincare',
-    author: 'Dra. Camila Beleza',
-    duration: '08 min',
+    author: 'Dra. Marina Hayashida',
+    duration: '10 min',
     isAI: false,
-    cover: 'https://i.ytimg.com/vi/y3t7M1vG-zM/hqdefault.jpg',
-    product: 'Vitamina C Pura 10% (4°C - 8°C)',
+    cover: 'https://i.ytimg.com/vi/NdzEUJHAgX8/hqdefault.jpg',
+    product: 'Vitamina C & Hidratante (4°C - 8°C)',
   },
   {
-    id: 'massagem-gua-sha',
-    youtubeId: '6g3E4jB5yH8',
-    title: 'Massagem Facial Drenante & Glow Natural',
-    category: 'Massagem Facial',
-    author: 'GlowIA Studio',
+    id: 'resenha-mini-geladeira',
+    youtubeId: 'ijcWA-cdE_E',
+    title: 'Resenha Completa: Mini Geladeira de Skincare',
+    category: 'GlowFridge',
+    author: 'Tainara Yamasaki - Estética',
     duration: '10 min',
     isAI: true,
-    cover: 'https://i.ytimg.com/vi/6g3E4jB5yH8/hqdefault.jpg',
-    product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
+    cover: 'https://i.ytimg.com/vi/ijcWA-cdE_E/hqdefault.jpg',
+    product: 'Cosméticos Termossensíveis (5°C - 10°C)',
+  },
+  {
+    id: 'massagem-facial-guasha',
+    youtubeId: 'Wdcbprw1vIc',
+    title: 'Massagem Facial com Gua Sha & Pedra Jade',
+    category: 'Massagem Facial',
+    author: 'Thamires Nascimento',
+    duration: '11 min',
+    isAI: false,
+    cover: 'https://i.ytimg.com/vi/Wdcbprw1vIc/hqdefault.jpg',
+    product: 'Gua Sha & Roller Resfriado (4°C - 6°C)',
   },
 ];
 
@@ -91,7 +91,7 @@ export default function App() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [guestUser, setGuestUser] = useState<User>(DEFAULT_USER);
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
-  const [favorites, setFavorites] = useState<string[]>(['skincare-rotina-noturna']);
+  const [favorites, setFavorites] = useState<string[]>(['skincare-manha-ordem']);
   const [toast, setToast] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [techSpecsOpen, setTechSpecsOpen] = useState(false);
