@@ -19,43 +19,43 @@ interface TutorialsProps {
   showToast?: (msg: string) => void;
 }
 
-const EXTRA_TUTORIALS: TutorialItem[] = [
+const CATALOG_TUTORIALS: TutorialItem[] = [
   {
-    id: 'qP3K-L9Wd8o',
-    youtubeId: 'qP3K-L9Wd8o',
+    id: 'skincare-rotina-noturna',
+    youtubeId: 'nA4P_dG0N34',
     title: 'Rotina Noturna de Hidratação Profunda',
     category: 'Skincare',
     author: 'GlowIA Academy',
     duration: '12 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/qP3K-L9Wd8o/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/nA4P_dG0N34/hqdefault.jpg',
     product: 'Sérum Ácido Hialurônico (8°C - 12°C)',
   },
   {
-    id: 'j4jrPoaxw1I',
-    youtubeId: 'j4jrPoaxw1I',
+    id: 'skincare-matinal-glow',
+    youtubeId: 'y3t7M1vG-zM',
     title: 'Skincare Matinal para Pele Luminosa',
     category: 'Skincare',
     author: 'Dra. Camila Beleza',
     duration: '08 min',
     isAI: false,
-    cover: 'https://img.youtube.com/vi/j4jrPoaxw1I/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/y3t7M1vG-zM/hqdefault.jpg',
     product: 'Vitamina C Pura 10% (4°C - 8°C)',
   },
   {
-    id: '8-Jm7t9eK-U',
-    youtubeId: '8-Jm7t9eK-U',
+    id: 'massagem-gua-sha',
+    youtubeId: '6g3E4jB5yH8',
     title: 'Massagem Facial Drenante com Gua Sha',
     category: 'Massagem Facial',
     author: 'GlowIA Studio',
     duration: '10 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/8-Jm7t9eK-U/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/6g3E4jB5yH8/hqdefault.jpg',
     product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
   },
   {
-    id: 'pX8e7m5n9kQ',
-    youtubeId: 'qP3K-L9Wd8o',
+    id: 'conservacao-glowfridge',
+    youtubeId: 'K4TOrB7at0Y',
     title: 'Como Conservar Cosméticos na Geladeira Smart',
     category: 'GlowFridge',
     author: 'Especialistas GlowUp',
@@ -65,8 +65,8 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
     product: 'Cremes para Área dos Olhos (5°C - 8°C)',
   },
   {
-    id: 'rT9v2w4x6yZ',
-    youtubeId: 'j4jrPoaxw1I',
+    id: 'controle-oleosidade',
+    youtubeId: 'lTRiuFIWV54',
     title: 'Controle de Oleosidade e Poros Dilatados',
     category: 'Skincare',
     author: 'Dra. Marina Pele',
@@ -76,8 +76,8 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
     product: 'Tônico Adstringente Gelado (6°C - 10°C)',
   },
   {
-    id: 'mN4b8v2c1xZ',
-    youtubeId: '8-Jm7t9eK-U',
+    id: 'preparacao-pele-natural',
+    youtubeId: 'M7lc1UVf-VE',
     title: 'Preparação de Pele Natural & Glow',
     category: 'Maquiagem',
     author: 'Studio GlowUp',
@@ -87,8 +87,8 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
     product: 'Bruma Hidratante Fixadora (6°C - 10°C)',
   },
   {
-    id: 'kL9j8h7g6fD',
-    youtubeId: 'qP3K-L9Wd8o',
+    id: 'spa-mascaras-geladas',
+    youtubeId: 'aqz-KE-bpKQ',
     title: 'Spa Facial em Casa com Máscaras Geladas',
     category: 'GlowFridge',
     author: 'GlowIA Academy',
@@ -98,8 +98,8 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
     product: 'Sheet Masks Calmantes (4°C - 7°C)',
   },
   {
-    id: 'zX1c2v3b4nM',
-    youtubeId: '8-Jm7t9eK-U',
+    id: 'drenagem-linfatica-facial',
+    youtubeId: 'ysz5S6PUM-U',
     title: 'Drenagem Linfática para Desinchar pela Manhã',
     category: 'Massagem Facial',
     author: 'Carla Bem-Estar',
@@ -109,8 +109,8 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
     product: 'Gel Calmante Aloe Vera (4°C - 8°C)',
   },
   {
-    id: 'qW2e3r4t5yU',
-    youtubeId: 'j4jrPoaxw1I',
+    id: 'guia-ativos-retinol',
+    youtubeId: 'jNQXAC9IVRw',
     title: 'Guia Completo de Ativos: Retinol e Niacinamida',
     category: 'Skincare',
     author: 'Dra. Camila Beleza',
@@ -122,7 +122,6 @@ const EXTRA_TUTORIALS: TutorialItem[] = [
 ];
 
 export default function Tutorials({
-  tutorials = [],
   favorites = [],
   onToggleFavorite,
   showToast,
@@ -132,17 +131,9 @@ export default function Tutorials({
   const [activeVideo, setActiveVideo] = useState<TutorialItem | null>(null);
   const [visibleCount, setVisibleCount] = useState(4);
 
-  // Combina os tutoriais recebidos com o catálogo expandido sem duplicar títulos
-  const allTutorials = [...tutorials];
-  EXTRA_TUTORIALS.forEach((item) => {
-    if (!allTutorials.some((t) => t.title === item.title)) {
-      allTutorials.push(item);
-    }
-  });
-
   const categories = ['Todos', 'Skincare', 'Massagem Facial', 'GlowFridge', 'Maquiagem', 'Favoritos'];
 
-  const filtered = allTutorials.filter((t) => {
+  const filtered = CATALOG_TUTORIALS.filter((t) => {
     const matchesSearch =
       t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       t.product.toLowerCase().includes(searchTerm.toLowerCase());
@@ -235,6 +226,10 @@ export default function Tutorials({
                     <img
                       src={item.cover}
                       alt={item.title}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src =
+                          'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80';
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                     />
                     <div className="absolute inset-0 bg-black/25 flex items-center justify-center opacity-90 group-hover:bg-black/40 transition">
@@ -295,19 +290,16 @@ export default function Tutorials({
         </div>
       )}
 
-      {/* Botão "Mais..." para expandir ou recolher os tutoriais */}
+      {/* Botão "Ver mais..." sem contagem */}
       {filtered.length > 4 && (
         <div className="flex justify-center pt-2">
           {hasMore ? (
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => prev + 4)}
-              className="px-7 py-3 rounded-full bg-white border-2 border-glowPrimary text-glowPrimary text-xs font-extrabold hover:bg-glowPrimary hover:text-white transition shadow-xs flex items-center gap-2"
+              className="px-7 py-3 rounded-full bg-white border-2 border-glowPrimary text-glowPrimary text-xs font-extrabold hover:bg-glowPrimary hover:text-white transition shadow-xs"
             >
-              <span>Ver mais...</span>
-              <span className="text-[11px] opacity-80">
-                ({filtered.length - displayedTutorials.length} restantes)
-              </span>
+              Ver mais...
             </button>
           ) : (
             <button
@@ -352,11 +344,25 @@ export default function Tutorials({
             <div className="aspect-video w-full bg-black">
               <iframe
                 className="w-full h-full"
-                src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1`}
+                src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1&rel=0`}
                 title={activeVideo.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
+            </div>
+
+            <div className="px-6 py-3 bg-glowBg flex items-center justify-between text-xs">
+              <span className="text-gray-500">
+                Armazenamento recomendado: <strong className="text-glowDark">{activeVideo.product}</strong>
+              </span>
+              <a
+                href={`https://www.youtube.com/watch?v=${activeVideo.youtubeId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-glowPrimary font-bold hover:underline"
+              >
+                Abrir no YouTube ↗
+              </a>
             </div>
           </div>
         </div>

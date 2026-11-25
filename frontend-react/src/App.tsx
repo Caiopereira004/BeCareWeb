@@ -52,36 +52,36 @@ const INITIAL_HABITS: Habit[] = [
 
 const INITIAL_TUTORIALS = [
   {
-    id: 'qP3K-L9Wd8o',
-    youtubeId: 'qP3K-L9Wd8o',
+    id: 'skincare-rotina-noturna',
+    youtubeId: 'nA4P_dG0N34',
     title: 'Rotina Noturna de Hidratação Profunda',
     category: 'Skincare',
     author: 'GlowIA Academy',
     duration: '12 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/qP3K-L9Wd8o/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/nA4P_dG0N34/hqdefault.jpg',
     product: 'Sérum Facial Hidratante (8°C - 12°C)',
   },
   {
-    id: 'j4jrPoaxw1I',
-    youtubeId: 'j4jrPoaxw1I',
+    id: 'skincare-matinal-glow',
+    youtubeId: 'y3t7M1vG-zM',
     title: 'Skincare Matinal para Pele Luminosa',
     category: 'Skincare',
     author: 'Dra. Camila Beleza',
     duration: '08 min',
     isAI: false,
-    cover: 'https://img.youtube.com/vi/j4jrPoaxw1I/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/y3t7M1vG-zM/hqdefault.jpg',
     product: 'Vitamina C Pura 10% (4°C - 8°C)',
   },
   {
-    id: '8-Jm7t9eK-U',
-    youtubeId: '8-Jm7t9eK-U',
+    id: 'massagem-gua-sha',
+    youtubeId: '6g3E4jB5yH8',
     title: 'Massagem Facial Drenante & Glow Natural',
     category: 'Massagem Facial',
     author: 'GlowIA Studio',
     duration: '10 min',
     isAI: true,
-    cover: 'https://img.youtube.com/vi/8-Jm7t9eK-U/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/6g3E4jB5yH8/hqdefault.jpg',
     product: 'Roller & Gua Sha Resfriado (4°C - 6°C)',
   },
 ];
@@ -91,7 +91,7 @@ export default function App() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [guestUser, setGuestUser] = useState<User>(DEFAULT_USER);
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
-  const [favorites, setFavorites] = useState<string[]>(['qP3K-L9Wd8o']);
+  const [favorites, setFavorites] = useState<string[]>(['skincare-rotina-noturna']);
   const [toast, setToast] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [techSpecsOpen, setTechSpecsOpen] = useState(false);

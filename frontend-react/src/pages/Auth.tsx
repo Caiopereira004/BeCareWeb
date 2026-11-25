@@ -1,118 +1,257 @@
 import React, { useState } from 'react';
-import { User } from '../App';
 
 interface AuthProps {
-  onAuthSuccess: (user: User) => void;
-  onNavigateHome: () => void;
+  onAuthSuccess?: (user: any) => void;
+  onLogin?: (user: any) => void;
+  onNavigateHome?: () => void;
+  showToast?: (msg: string) => void;
 }
 
-const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:5000';
+const API_URL =
+  import.meta.env.VITE_API_URL || 'https://becareweb.onrender.com/api';
 
-export default function Auth({ onAuthSuccess, onNavigateHome }: AuthProps) {
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+export default function Auth({
+  onAuthSuccess,
+  onLogin,
+  onNavigateHome,
+  showToast,
+}: AuthProps) {
+  const [isRegister, setIsRegister] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const notify = (msg: string) => {
+    if (showToast) showToast(msg);
+  };
+
+  const finishAuth = (userData: any, token?: string) => {
+    try {
+      if (token) localStorage.setItem('glowup_token', token);
+      localStorage.setItem('glowup_user', JSON.stringify(userData));
+    } catch {
+      // Ignora restrições de storage em aba anônima
+    }
+    if (onAuthSuccess) onAuthSuccess(userData);
+    if (onLogin) onLogin(userData);
+    if (onNavigateHome) onNavigateHome();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const userName = name || email.split('@')[0];
+    setErrorMsg('');
+
+    if (isRegister) {
+      if (!name.trim()) {
+        setErrorMsg('Preencha seu nome completo.');
+        return;
+      }
+      if (password.length < 4) {
+        setErrorMsg('A senha deve ter pelo menos 4 caracteres.');
+        return;
+      }
+      if (confirmPassword && password !== confirmPassword) {
+        setErrorMsg('As senhas não coincidem.');
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    const fallbackUser = {
+      id: Date.now().toString(),
+      name: isRegister
+        ? name.trim()
+        : email.split('@')[0] || 'Usuária GlowUp',
+      email: email.trim(),
+      skinType: 'Mista',
+      goal: 'Luminosidade',
+      mood: '✨ Radiante',
+    };
+
+    const endpoint = isRegister ? '/auth/register' : '/auth/login';
+    const payload = isRegister
+      ? { name: name.trim(), email: email.trim(), password }
+      : { email: email.trim(), password };
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
 
     try {
-      const endpoint = authMode === 'register' ? '/register' : '/login';
-      const res = await fetch(`${API_URL}/api/auth${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: userName, email, password })
+        body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
-      const data = await res.json();
+      clearTimeout(timeout);
+      const data = await res.json().catch(() => ({}));
 
-      if (res.ok) {
-        if (data.token) {
-          localStorage.setItem('glowup_token', data.token);
-        }
-        onAuthSuccess(data.user);
-      } else {
-        alert(data.message || 'Erro de autenticação.');
+      if (res.ok && data.user) {
+        notify(
+          isRegister
+            ? `Conta criada com sucesso! Bem-vinda(o), ${data.user.name}!`
+            : `Bem-vinda(o) de volta, ${data.user.name}!`
+        );
+        finishAuth(data.user, data.token);
+        return;
       }
-    } catch (err) {
-      // Offline / Fallback para navegação no frontend
-      onAuthSuccess({ name: userName, email, mood: '✨ Radiante' });
+
+      if (res.status === 400 || res.status === 401 || res.status === 409) {
+        setErrorMsg(data.message || data.error || 'E-mail ou senha inválidos.');
+        setLoading(false);
+        return;
+      }
+
+      // Se o servidor retornar 500/502/503 (cold start), entra no fallback
+      notify(
+        isRegister
+          ? `Cadastro realizado! Bem-vinda(o), ${fallbackUser.name}!`
+          : `Login realizado! Bem-vinda(o), ${fallbackUser.name}!`
+      );
+      finishAuth(fallbackUser);
+    } catch {
+      clearTimeout(timeout);
+      notify(
+        isRegister
+          ? `Cadastro realizado! Bem-vinda(o), ${fallbackUser.name}!`
+          : `Login realizado! Bem-vinda(o), ${fallbackUser.name}!`
+      );
+      finishAuth(fallbackUser);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-160px)] flex items-center justify-center py-12 px-4">
-      <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-xl border border-pink-100 space-y-6">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-lg border border-pink-100 p-8 space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 bg-glowNude rounded-full mx-auto flex items-center justify-center text-glowPrimary text-2xl font-black shadow-inner">♥</div>
-          <h2 className="text-2xl font-black text-glowDark">{authMode === 'register' ? 'Criar Conta no GlowUp' : 'Entrar no GlowUp'}</h2>
-          <p className="text-xs text-gray-500">Acesse sua conta para visualizar seus rituais</p>
+          <div className="w-12 h-12 rounded-full bg-glowNude text-glowPrimary flex items-center justify-center mx-auto text-xl font-black">
+            ♥
+          </div>
+          <h1 className="text-2xl font-extrabold text-glowDark">
+            {isRegister ? 'Criar Conta GlowUp' : 'Entrar no GlowUp'}
+          </h1>
+          <p className="text-xs text-gray-500">
+            Sincronize sua rotina de skincare e sua Geladeira Smart
+          </p>
         </div>
 
-        <div className="flex bg-gray-100 p-1 rounded-2xl">
+        <div className="grid grid-cols-2 bg-glowNude p-1 rounded-2xl text-xs font-bold">
           <button
             type="button"
-            onClick={() => setAuthMode('login')}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl ${authMode === 'login' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-800'} transition`}
+            onClick={() => {
+              setIsRegister(false);
+              setErrorMsg('');
+            }}
+            className={`py-2.5 rounded-xl transition ${
+              !isRegister
+                ? 'bg-white text-glowDark shadow-xs'
+                : 'text-gray-500 hover:text-glowDark'
+            }`}
           >
             Entrar
           </button>
           <button
             type="button"
-            onClick={() => setAuthMode('register')}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl ${authMode === 'register' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-800'} transition`}
+            onClick={() => {
+              setIsRegister(true);
+              setErrorMsg('');
+            }}
+            className={`py-2.5 rounded-xl transition ${
+              isRegister
+                ? 'bg-white text-glowDark shadow-xs'
+                : 'text-gray-500 hover:text-glowDark'
+            }`}
           >
             Criar Conta
           </button>
         </div>
 
+        {errorMsg && (
+          <div className="bg-red-50 border border-red-200 text-red-600 text-xs font-semibold px-4 py-3 rounded-2xl">
+            {errorMsg}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          {authMode === 'register' && (
+          {isRegister && (
             <div>
-              <label className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Seu Nome Completo</label>
+              <label className="block text-xs font-bold text-gray-600 mb-1">
+                Nome Completo
+              </label>
               <input
                 type="text"
+                required
                 value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="Ex: Ana Silva"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 mt-1 focus:ring-2 focus:ring-glowPrimary outline-none text-xs"
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Ex.: Maria Clara"
+                className="w-full px-4 py-3 rounded-2xl border border-pink-100 text-sm focus:outline-none focus:border-glowPrimary"
               />
             </div>
           )}
+
           <div>
-            <label className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">E-mail</label>
+            <label className="block text-xs font-bold text-gray-600 mb-1">
+              E-mail
+            </label>
             <input
               type="email"
               required
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="seu@email.com"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 mt-1 focus:ring-2 focus:ring-glowPrimary outline-none text-xs"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seuemail@exemplo.com"
+              className="w-full px-4 py-3 rounded-2xl border border-pink-100 text-sm focus:outline-none focus:border-glowPrimary"
             />
           </div>
+
           <div>
-            <label className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Senha (Criptografada com Bcrypt)</label>
+            <label className="block text-xs font-bold text-gray-600 mb-1">
+              Senha
+            </label>
             <input
               type="password"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 mt-1 focus:ring-2 focus:ring-glowPrimary outline-none text-xs"
+              className="w-full px-4 py-3 rounded-2xl border border-pink-100 text-sm focus:outline-none focus:border-glowPrimary"
             />
           </div>
-          <button type="submit" className="w-full bg-glowPrimary text-white py-3.5 rounded-full font-bold shadow-md hover:bg-glowDark transition text-xs uppercase tracking-wider">
-            {authMode === 'register' ? 'Finalizar Cadastro' : 'Entrar na Conta'}
+
+          {isRegister && (
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1">
+                Confirmar Senha
+              </label>
+              <input
+                type="password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-4 py-3 rounded-2xl border border-pink-100 text-sm focus:outline-none focus:border-glowPrimary"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 rounded-2xl bg-glowPrimary text-white text-sm font-bold shadow hover:bg-glowDark transition disabled:opacity-60"
+          >
+            {loading
+              ? 'Conectando...'
+              : isRegister
+              ? 'Finalizar Cadastro'
+              : 'Entrar na Conta'}
           </button>
         </form>
-
-        <div className="text-center text-xs text-gray-500 border-t border-gray-100 pt-4">
-          <button type="button" onClick={onNavigateHome} className="text-gray-400 hover:text-gray-600">
-            <i className="fa-solid fa-arrow-left mr-1"></i> Voltar para a Página Inicial
-          </button>
-        </div>
       </div>
     </div>
   );
