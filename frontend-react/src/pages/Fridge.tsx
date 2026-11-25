@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import TechSpecModal from '../components/TechSpecModal';
+import React from 'react';
 
 interface FridgeProps {
   onOpenModal?: () => void;
@@ -15,12 +14,12 @@ export default function Fridge({
   onScrollApp,
   onDownloadApp,
 }: FridgeProps) {
-  const [localSpecOpen, setLocalSpecOpen] = useState(false);
-
   const handleOpenSpecs = () => {
-    setLocalSpecOpen(true);
-    if (onOpenModal) onOpenModal();
-    if (onOpenTechSpecs) onOpenTechSpecs();
+    if (onOpenTechSpecs) {
+      onOpenTechSpecs();
+    } else if (onOpenModal) {
+      onOpenModal();
+    }
   };
 
   const handleScrollToApp = () => {
@@ -111,11 +110,6 @@ export default function Fridge({
           </p>
         </div>
       </div>
-
-      <TechSpecModal
-        isOpen={localSpecOpen}
-        onClose={() => setLocalSpecOpen(false)}
-      />
     </div>
   );
 }
